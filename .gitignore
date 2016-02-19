@@ -3,6 +3,7 @@
 
 # python caché
 /__pychache__
+*.py~
 
 # Setuptools distribution folder.
 /dist/
