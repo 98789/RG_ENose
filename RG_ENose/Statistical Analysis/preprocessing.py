@@ -3,7 +3,7 @@ import numpy
 def parameters(data, model, n_cols):
     """Preprocessing for parameters"""
 
-    G = 1 / data
+    G = 1.0 / data
     n = G.shape[1]
 
     if model in {1, 3}:

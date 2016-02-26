@@ -2,7 +2,7 @@ from scipy.stats import f
 from sklearn.decomposition import PCA
 import numpy
 
-def pca(data, scl, n_components, plot=1):
+def pca(data, n_components, plot=1):
     """Compute PCA"""
 
     m, n = data.shape
@@ -21,4 +21,4 @@ def pca(data, scl, n_components, plot=1):
            ssq[:n_components, 1] ** 0.5))) ** 2,
            1) if n_components > 1 else scores ** 2 / ssq[0, 1]
 
-    return [scores, loads.T, ssq, res, q, tsq, tsqs]
+    return scores, loads.T, ssq, res, q, tsq, tsqs
