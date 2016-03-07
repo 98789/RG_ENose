@@ -129,11 +129,12 @@ class RG_EnoseApp(QtGui.QMainWindow, RG_Enose_GUI.Ui_MainWindow):
     def load_data(self):
 
         data_temp = []
+        self.labels = []
         for filename in sorted(glob.glob(os.path.join(
         self.directory, '*.txt'))):
+            self.labels.append(filename.split("/")[-1][:-4])
             with open(filename, "rb") as data_file:
                 data_temp.append([line.split() for line in data_file])
-
         self.data = numpy.hstack(data_temp).astype('float')
         self.preprocessingComboBox.setCurrentIndex(0)
         self.preprocessingComboBox.setEnabled(True)
@@ -178,13 +179,16 @@ class RG_EnoseApp(QtGui.QMainWindow, RG_Enose_GUI.Ui_MainWindow):
                     if i == self.pca_dialog.n_components:
                         self.pca_plot.textBrowser.append(
                              "<table width=\"100%\"><tr><td><hr /></td></tr></table>")
+                    elif text[3]/100.0 > self.pca_dialog.n_components:
+                        self.pca_dialog.n_components = i + 1
                     self.pca_plot.textBrowser.append(
                         "{:<.0f}\t{:<.4f}\t{:<.2f}\t{:<.2f}"
                         .format(*text))
                 self.pca_plot.exec_()
                 if self.pca_plot.x:
                     fig = pca.plot_3D(self.scores, self.pca_plot.x - 1, 
-                                self.pca_plot.y - 1, self.pca_plot.z - 1)
+                                self.pca_plot.y - 1, self.pca_plot.z - 1,
+                                self.labels)
                     self.scene.addWidget(fig)
                     self.outputView.setScene(self.scene)
 

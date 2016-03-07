@@ -1,3 +1,4 @@
+from matplotlib import cm
 from matplotlib.figure import Figure
 from matplotlib.backends import backend_qt4agg
 from mpl_toolkits.mplot3d import Axes3D
@@ -30,14 +31,25 @@ def pca(data, n_components, plot=1):
     return scores, loads.T, ssq, res, q, tsq, tsqs
 
 
-def plot_3D(data, x, y, z):
+def plot_3D(data, x, y, z, labels):
     """plot the x, y and z dimensions of data"""
 
     fig = Figure()
     canvas = backend_qt4agg.FigureCanvasQTAgg(fig)
     ax = fig.add_axes([0, 0, 1, 1], projection='3d')
+#    data_len = data.shape[0]
 
-    Axes3D.scatter(ax, data[:, x], data[:, y], data[:, z])
+#    colors = cm.rainbow(numpy.linspace(0, 1, 3))
+
+#    data_len /= 3
+
+    for i, l in enumerate(labels):
+#        st = data_len * i
+#        end = data_len * (i + 1)
+        ax.scatter(data[i, x], data[i, y], data[i, z])
+        ax.text(data[i, x], data[i, y], data[i, z], l, size=8, zorder=1,
+                color='k') 
+
     Axes3D.mouse_init(ax)
 
     return canvas
